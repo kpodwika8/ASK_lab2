@@ -5,11 +5,12 @@ jobs:
   build-and-test:
     executor: node/default
     steps:
+      - cd <server/>
       - checkout
       - node/install-packages
       - run:
           command: npm test
 workflows:
-    build-and-test:
+    build-and-test-server:
       jobs:
         - build-and-test
