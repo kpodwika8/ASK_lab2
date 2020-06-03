@@ -4,12 +4,12 @@ orbs:
 jobs:
   build-and-test:
     executor: node/default
-    steps:  
+    steps:
       - checkout
       - node/install-packages
       - run:
-        command: npm test
+          command: npm test
 workflows:
-  build-and-test:
-    jobs:
-      - build-and-test
+    build-and-test:
+      jobs:
+        - build-and-test
