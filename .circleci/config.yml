@@ -5,7 +5,6 @@ jobs:
   build-and-test-server:
     executor: node/default
     steps:
-      - cd <server/>
       - checkout
       - node/install-packages
       - run:
