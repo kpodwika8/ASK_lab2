@@ -16,7 +16,7 @@ jobs:
           command: npm test
           working_directory: ./server
       - run:
-          command: npm test
+          command: npm install
           working_directory: ./client
       - run:
           command: npm test
