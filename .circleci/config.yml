@@ -25,21 +25,23 @@ jobs:
   docker:
     machine: true
     steps:
-      -  run:
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u  "kpodwika" --password-stdin
-            sudo docker build ./db -t kpodwika/node-react-db
-            sudo docker push kpodwika/node-react-db:latest
       - run:
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
-            sudo docker build ./server -t kpodwika8/node-svr
-            sudo docker push kpodwika8/node-svr
-      - run:
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
-            sudo docker build ./client -t kpodwika/cra-client
-            sudo docker push kpodwika/cra-client
+           command: |
+              echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
+              sudo docker build ./db -t kpodwika/node-react-db
+              sudo docker push kpodwika/node-react-db:latest
+              
+       - run:
+           command: |
+              echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
+              sudo docker build ./server -t kpodwika/node-svr
+              sudo docker push kpodwika/node-svr
+              
+       - run:
+           command: |
+              echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
+              sudo docker build ./client -t kpodwika/cra-client
+              sudo docker push kpodwika/cra-client
             
 workflows:
     build-and-test:
