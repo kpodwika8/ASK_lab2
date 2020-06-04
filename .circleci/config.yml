@@ -41,7 +41,6 @@ jobs:
             sudo docker build ./client -t kpodwika/cra-client
             sudo docker push kpodwika/cra-client
             
-
 workflows:
     build-and-test:
       jobs:
