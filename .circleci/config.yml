@@ -3,7 +3,7 @@ orbs:
   node: circleci/node@2.1.0
 jobs:
   build-and-test:
-    executor: 
+    executor:
       name: node/default
     steps:
       - checkout
@@ -11,37 +11,42 @@ jobs:
       - node/install-packages:
           app-dir: ./server
       - run:
-           command: npm install
-           working_directory: ./server
+          command: npm install
+          working_directory: ./server
       - run:
-           command: npm test
-           working_directory: ./server
+          command: npm test
+          working_directory: ./server
       - run:
-           command: npm install
-           working_directory: ./client
+          command: npm install
+          working_directory: ./client
       - run:
-           command: npm test
-           working_directory: ./client
+          command: npm test
+          working_directory: ./client
   docker:
     machine: true
     steps:
-      - run:
+       - checkout
+       - run:
            command: |
               echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
               sudo docker build ./db -t kpodwika/node-react-db
               sudo docker push kpodwika/node-react-db:latest
               
-      - run:
+       - run:
            command: |
               echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
               sudo docker build ./server -t kpodwika/node-svr
               sudo docker push kpodwika/node-svr
               
-      - run:
+       - run:
            command: |
               echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
               sudo docker build ./client -t kpodwika/cra-client
-              sudo docker push kpodwika/cra-client     
+              sudo docker push kpodwika/cra-client
+          
+            
+      
+            
 workflows:
     build-and-test:
       jobs:
