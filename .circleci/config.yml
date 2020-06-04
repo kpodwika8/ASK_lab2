@@ -7,6 +7,7 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - setup_remote_docker
       - node/install-packages:
           app-dir: ./server
       - run:
@@ -21,7 +22,27 @@ jobs:
       - run:
           command: npm test
           working_directory: ./client
+  docker:
+    machine: true
+    steps:
+      -  run:
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u  "kpodwika" --password-stdin
+            sudo docker build ./db -t kpodwika/node-react-db
+            sudo docker push kpodwika/node-react-db:latest
+      - run:
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
+            sudo docker build ./server -t kpodwika/node-svr
+            sudo docker push kpodwika/node-svr
+      - run:
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
+            sudo docker build ./client -t kpodwika/cra-client
+            sudo docker push kpodwika/cra-client
+
 workflows:
     build-and-test:
       jobs:
         - build-and-test
+        - docker
