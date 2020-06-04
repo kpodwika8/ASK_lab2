@@ -64,13 +64,25 @@ jobs:
 workflows:
     build-and-test:
       jobs:
-        - build
+        - build:
+          filters:
+            branches:
+              only:
+                - master
         - test-server:
            requires:
                - build
+           filters:
+             branches:
+               only:
+                 - master
         - test-client:
            requires:
                - build
+           filters:
+             branches:
+               only:
+                 - master
         - docker:
            requires:
            - test-server
