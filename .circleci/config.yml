@@ -3,11 +3,18 @@ orbs:
   node: circleci/node@2.1.0
 jobs:
   build-and-test:
+  build:
     executor:
       name: node/default
     steps:
       - checkout
       - setup_remote_docker
+      
+  test-server:
+    executor:
+      name: node/default
+    steps:
+      - checkout
       - node/install-packages:
           app-dir: ./server
       - run:
@@ -16,12 +23,19 @@ jobs:
       - run:
           command: npm test
           working_directory: ./server
+          
+  test-client:
+    executor:
+      name: node/default
+    steps:
+      - checkout
       - run:
           command: npm install
           working_directory: ./client
       - run:
           command: npm test
           working_directory: ./client
+  
   docker:
     machine: true
     steps:
@@ -50,5 +64,14 @@ jobs:
 workflows:
     build-and-test:
       jobs:
-        - build-and-test
-        - docker
+        - build
+        - test-server:
+           requires:
+               - build
+        - test-client:
+           requires:
+               - build
+        - docker:
+           requires:
+           - test-server
+           - test-client
