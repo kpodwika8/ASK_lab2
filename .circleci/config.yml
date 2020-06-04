@@ -41,8 +41,7 @@ jobs:
            command: |
               echo "$DOCKERHUB_PASSWORD" | docker login -u "kpodwika" --password-stdin
               sudo docker build ./client -t kpodwika/cra-client
-              sudo docker push kpodwika/cra-client
-            
+              sudo docker push kpodwika/cra-client     
 workflows:
     build-and-test:
       jobs:
